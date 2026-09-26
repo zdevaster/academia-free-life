@@ -1,0 +1,81 @@
+<%- include('../partials/admin-top') %>
+<header class="page-head">
+  <p class="kicker">Academia Free Life</p>
+  <h1>Painel</h1>
+  <p class="lede">Mensagens do formulário, planos e modalidades. O que você salvar aqui aparece no site na hora.</p>
+</header>
+
+<% if (generatedPassword) { %>
+  <div class="banner" role="status">
+    <p><strong>ADMIN_PASSWORD não definido.</strong> Esta execução gerou uma senha aleatória e a imprimiu no log do servidor. A senha pública do README não está em uso. Defina a variável e reinicie.</p>
+  </div>
+<% } else if (usingDefaultPassword) { %>
+  <div class="banner" role="status">
+    <p><strong>Senha padrão.</strong> Defina <code>ADMIN_PASSWORD</code> no ambiente e reinicie o servidor antes de publicar.</p>
+  </div>
+<% } %>
+<% if (flags.any) { %>
+  <div class="banner" role="status">
+    <p><strong>Ainda há dados de exemplo no ar.</strong> <%= flags.plans %> plano(s) e <%= flags.classes %> modalidade(s) marcados como exemplo. Edite ou apague antes de divulgar o site.</p>
+  </div>
+<% } %>
+<% if (!contact.phone && !contact.whatsapp) { %>
+  <div class="banner" role="status">
+    <p><strong>Telefone e WhatsApp vazios.</strong> Os botões Ligar e WhatsApp ficam ocultos até você cadastrar os números reais em Telefone. Não invente um número.</p>
+  </div>
+<% } else if (!contact.phone || !contact.whatsapp) { %>
+  <div class="banner" role="status">
+    <p>Falta cadastrar <%= contact.phone ? 'o WhatsApp' : 'o telefone' %>. O botão correspondente não aparece no site.</p>
+  </div>
+<% } %>
+
+<div class="stats">
+  <article class="card">
+    <p class="stat-label">Mensagens</p>
+    <p class="stat-value"><%= stats.submissions %></p>
+  </article>
+  <article class="card">
+    <p class="stat-label">Planos no ar</p>
+    <p class="stat-value"><%= stats.activePlans %></p>
+  </article>
+  <article class="card">
+    <p class="stat-label">Modalidades no ar</p>
+    <p class="stat-value"><%= stats.activeClasses %></p>
+  </article>
+</div>
+
+<section class="admin-block">
+  <div class="section-title split-title">
+    <h2>Mensagens recentes</h2>
+    <a href="/admin/mensagens">Ver todas</a>
+  </div>
+  <% if (!submissions.length) { %>
+    <p class="empty">Nenhuma mensagem ainda. Quando alguém enviar o formulário de contato, ela aparece aqui.</p>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="stack">
+        <thead>
+          <tr>
+            <th>Quando</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Motivo</th>
+            <th>Mensagem</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% submissions.forEach(function (item) { %>
+            <tr>
+              <td data-label="Quando"><%= formatWhen(item.created_at) %></td>
+              <td data-label="Nome"><%= item.name %></td>
+              <td data-label="Telefone"><a href="tel:+55<%= item.phone %>"><%= formatPhone(item.phone) %></a></td>
+              <td data-label="Motivo"><%= interestLabel(item.interest) %></td>
+              <td data-label="Mensagem" class="message"><%= item.message %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>
+<%- include('../partials/admin-bottom') %>

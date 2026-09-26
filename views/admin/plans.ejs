@@ -1,0 +1,47 @@
+<%- include('../partials/admin-top') %>
+<header class="page-head">
+  <div class="split-title">
+    <div>
+      <p class="kicker">Painel</p>
+      <h1>Planos</h1>
+    </div>
+    <a class="btn btn-primary" href="/admin/planos/novo">Novo plano</a>
+  </div>
+  <p class="lede">Desmarque “exemplo” só quando o nome, o valor e os benefícios forem os da academia.</p>
+</header>
+<% if (!plans.length) { %>
+  <p class="empty">Nenhum plano cadastrado.</p>
+<% } else { %>
+  <div class="table-wrap">
+    <table class="stack">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Valor</th>
+          <th>Ordem</th>
+          <th>Situação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% plans.forEach(function (plan) { %>
+          <tr>
+            <td data-label="Nome"><%= plan.name %></td>
+            <td data-label="Valor"><%= plan.price_label %><% if (plan.period_label) { %> <span class="fine"><%= plan.period_label %></span><% } %></td>
+            <td data-label="Ordem"><%= plan.sort_order %></td>
+            <td data-label="Situação">
+              <% if (!plan.active) { %><span class="badge badge-off">Oculto</span><% } else { %><span class="badge badge-highlight">No ar</span><% } %>
+              <% if (plan.is_placeholder) { %><span class="badge badge-example">Exemplo</span><% } %>
+              <% if (plan.highlighted) { %><span class="badge badge-highlight">Destaque</span><% } %>
+            </td>
+            <td data-label="Ações" class="row-actions">
+              <a href="/admin/planos/<%= plan.id %>/editar">Editar</a>
+              <a href="/admin/planos/<%= plan.id %>/excluir">Excluir</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+<%- include('../partials/admin-bottom') %>

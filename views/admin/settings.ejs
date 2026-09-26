@@ -1,0 +1,46 @@
+<%- include('../partials/admin-top') %>
+<header class="page-head">
+  <p class="kicker">Painel</p>
+  <h1>Telefone e WhatsApp</h1>
+  <p class="lede">Cadastre só números reais da academia. Em branco, o site esconde o botão em vez de mostrar um telefone inventado.</p>
+</header>
+<%- include('../partials/problems') %>
+<% if (settings.phoneFromEnv || settings.whatsappFromEnv) { %>
+  <div class="banner" role="status">
+    <p>Há variável de ambiente preenchida. Esse valor tem prioridade sobre o painel e o campo correspondente fica bloqueado.</p>
+  </div>
+<% } %>
+<form class="form form-narrow" method="post" action="/admin/telefone" novalidate>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="field <%= errors.phone ? 'is-invalid' : '' %>">
+    <label for="phone">Telefone para o botão Ligar</label>
+    <% if (settings.phoneFromEnv) { %>
+      <input id="phone" type="tel" value="<%= formatPhone(settings.phone) %>" disabled>
+      <p class="hint">Definido por <code>PHONE</code> no ambiente: <%= contact.phoneLabel %>.</p>
+    <% } else { %>
+      <input id="phone" name="phone" type="tel" inputmode="tel" maxlength="32" value="<%= form.phone %>" placeholder="(17) 90000-0000" <% if (errors.phone) { %>aria-invalid="true" aria-describedby="erro-phone"<% } %>>
+      <p class="hint">Fixo ou celular, com DDD. Deixe vazio para ocultar Ligar.</p>
+    <% } %>
+    <%- include('../partials/field-error', { field: 'phone' }) %>
+  </div>
+  <div class="field <%= errors.whatsapp ? 'is-invalid' : '' %>">
+    <label for="whatsapp">WhatsApp</label>
+    <% if (settings.whatsappFromEnv) { %>
+      <input id="whatsapp" type="tel" value="<%= formatPhone(settings.whatsapp) %>" disabled>
+      <p class="hint">Definido por <code>WHATSAPP</code> no ambiente.</p>
+    <% } else { %>
+      <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" maxlength="32" value="<%= form.whatsapp %>" placeholder="(17) 90000-0000" <% if (errors.whatsapp) { %>aria-invalid="true" aria-describedby="erro-whatsapp"<% } %>>
+      <p class="hint">Celular com DDD. Deixe vazio para ocultar o WhatsApp.</p>
+    <% } %>
+    <%- include('../partials/field-error', { field: 'whatsapp' }) %>
+  </div>
+  <p class="fine">
+    No site agora:
+    <%= contact.telHref ? 'Ligar ' + contact.phoneLabel : 'Ligar oculto' %> ·
+    <%= contact.whatsappHref ? 'WhatsApp ' + contact.whatsappLabel : 'WhatsApp oculto' %>.
+  </p>
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Salvar contato</button>
+  </div>
+</form>
+<%- include('../partials/admin-bottom') %>

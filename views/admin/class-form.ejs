@@ -1,0 +1,64 @@
+<%- include('../partials/admin-top') %>
+<header class="page-head">
+  <p class="kicker">Modalidades</p>
+  <h1><%= mode === 'editar' ? 'Editar modalidade' : 'Nova modalidade' %></h1>
+</header>
+<%- include('../partials/problems') %>
+<form class="form form-narrow" method="post" action="<%= action %>" novalidate>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="field <%= errors.name ? 'is-invalid' : '' %>">
+    <label for="name">Nome</label>
+    <input id="name" name="name" type="text" maxlength="80" required value="<%= form.name %>" <% if (errors.name) { %>aria-invalid="true" aria-describedby="erro-name"<% } %>>
+    <%- include('../partials/field-error', { field: 'name' }) %>
+  </div>
+  <div class="field <%= errors.description ? 'is-invalid' : '' %>">
+    <label for="description">Descrição</label>
+    <textarea id="description" name="description" rows="4" maxlength="500" <% if (errors.description) { %>aria-invalid="true" aria-describedby="erro-description"<% } %>><%= form.description %></textarea>
+    <%- include('../partials/field-error', { field: 'description' }) %>
+  </div>
+  <fieldset id="weekdays" class="<%= errors.weekdays ? 'is-invalid' : '' %>">
+    <legend>Dias da semana</legend>
+    <div class="checks">
+      <% days.forEach(function (day) { %>
+        <label class="check">
+          <input type="checkbox" name="weekdays" value="<%= day.id %>" <%= form.weekdays.includes(day.id) ? 'checked' : '' %>>
+          <span><%= day.name %></span>
+        </label>
+      <% }) %>
+    </div>
+    <%- include('../partials/field-error', { field: 'weekdays' }) %>
+  </fieldset>
+  <div class="time-row">
+    <div class="field <%= errors.start_time ? 'is-invalid' : '' %>">
+      <label for="start_time">Início</label>
+      <input id="start_time" name="start_time" type="time" required value="<%= form.start_time %>" <% if (errors.start_time) { %>aria-invalid="true" aria-describedby="erro-start_time"<% } %>>
+      <%- include('../partials/field-error', { field: 'start_time' }) %>
+    </div>
+    <div class="field <%= errors.end_time ? 'is-invalid' : '' %>">
+      <label for="end_time">Término</label>
+      <input id="end_time" name="end_time" type="time" required value="<%= form.end_time %>" <% if (errors.end_time) { %>aria-invalid="true" aria-describedby="erro-end_time"<% } %>>
+      <%- include('../partials/field-error', { field: 'end_time' }) %>
+    </div>
+  </div>
+  <div class="field <%= errors.sort_order ? 'is-invalid' : '' %>">
+    <label for="sort_order">Ordem na lista</label>
+    <input id="sort_order" name="sort_order" type="number" min="0" max="999" inputmode="numeric" value="<%= form.sort_order %>" <% if (errors.sort_order) { %>aria-invalid="true" aria-describedby="erro-sort_order"<% } %>>
+    <%- include('../partials/field-error', { field: 'sort_order' }) %>
+  </div>
+  <label class="check-line">
+    <input type="checkbox" name="active" value="1" <%= form.active ? 'checked' : '' %>>
+    <span>Publicar no site</span>
+  </label>
+  <label class="check-line">
+    <input type="checkbox" name="is_placeholder" value="1" <%= form.is_placeholder ? 'checked' : '' %>>
+    <span>Marcar como exemplo (mostra o aviso no site)</span>
+  </label>
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Salvar</button>
+    <a class="btn btn-ghost" href="/admin/modalidades">Cancelar</a>
+    <% if (typeof deleteHref !== 'undefined' && deleteHref) { %>
+      <a class="btn btn-danger" href="<%= deleteHref %>">Excluir</a>
+    <% } %>
+  </div>
+</form>
+<%- include('../partials/admin-bottom') %>

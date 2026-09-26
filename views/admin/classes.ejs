@@ -1,0 +1,46 @@
+<%- include('../partials/admin-top') %>
+<header class="page-head">
+  <div class="split-title">
+    <div>
+      <p class="kicker">Painel</p>
+      <h1>Modalidades</h1>
+    </div>
+    <a class="btn btn-primary" href="/admin/modalidades/novo">Nova modalidade</a>
+  </div>
+  <p class="lede">Cada registro é uma aula com dias e horário. A grade pública é montada a partir daqui.</p>
+</header>
+<% if (!classes.length) { %>
+  <p class="empty">Nenhuma modalidade cadastrada.</p>
+<% } else { %>
+  <div class="table-wrap">
+    <table class="stack">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Quando</th>
+          <th>Ordem</th>
+          <th>Situação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% classes.forEach(function (item) { %>
+          <tr>
+            <td data-label="Nome"><%= item.name %></td>
+            <td data-label="Quando"><%= item.weekdayLabel %> · <%= item.start_time %>–<%= item.end_time %></td>
+            <td data-label="Ordem"><%= item.sort_order %></td>
+            <td data-label="Situação">
+              <% if (!item.active) { %><span class="badge badge-off">Oculto</span><% } else { %><span class="badge badge-highlight">No ar</span><% } %>
+              <% if (item.is_placeholder) { %><span class="badge badge-example">Exemplo</span><% } %>
+            </td>
+            <td data-label="Ações" class="row-actions">
+              <a href="/admin/modalidades/<%= item.id %>/editar">Editar</a>
+              <a href="/admin/modalidades/<%= item.id %>/excluir">Excluir</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+<%- include('../partials/admin-bottom') %>

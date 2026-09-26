@@ -1,0 +1,131 @@
+<%- include('partials/top') %>
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="kicker"><%= gym.city %> · <%= gym.state %></p>
+      <div class="hero-mark" aria-hidden="true">
+        <svg viewBox="0 0 640 150" focusable="false">
+          <path d="M16 124C150 18 490 18 624 124" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h1>
+        <span class="eyebrow">Academia</span>
+        <span class="display" translate="no">Free Life</span>
+      </h1>
+      <p class="lede">Unidade no <%= gym.neighborhood %>, <%= gym.city %> — <%= gym.state %>. Na ficha do Google, academia na <%= gym.regionNote %>.</p>
+      <%- include('partials/rating') %>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/contato#formulario">Matricule-se</a>
+        <% if (contact.whatsappHref) { %>
+          <a class="btn btn-secondary" href="<%= contact.whatsappHref %>" target="_blank" rel="noopener noreferrer">WhatsApp<span class="sr-only"> (abre em nova aba)</span></a>
+        <% } else { %>
+          <span class="chip-muted">WhatsApp não cadastrado</span>
+        <% } %>
+        <% if (contact.telHref) { %>
+          <a class="btn btn-ghost" href="<%= contact.telHref %>">Ligar</a>
+        <% } else { %>
+          <span class="chip-muted">Telefone não cadastrado</span>
+        <% } %>
+      </div>
+      <% if (!contact.telHref || !contact.whatsappHref) { %>
+        <p class="fine">Ligar e WhatsApp aparecem quando a academia cadastra os números reais. Até lá, use o formulário.</p>
+      <% } %>
+    </div>
+    <aside class="panel hero-card">
+      <div>
+        <p class="kicker">Google</p>
+        <p class="hero-score" aria-hidden="true"><%= gym.ratingLabel %></p>
+        <p class="fine"><%= gym.reviewCountLabel %> avaliações. Este site não lista depoimentos.</p>
+      </div>
+      <div>
+        <h2>Onde fica</h2>
+        <p class="address-street"><%= gym.street %></p>
+        <p class="address-full"><%= gym.neighborhood %><br><%= gym.city %> — <%= gym.state %><br>CEP <%= gym.cep %></p>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="<%= maps.directions %>" target="_blank" rel="noopener noreferrer">Como chegar<span class="sr-only"> (abre em nova aba)</span></a>
+        <a class="btn btn-ghost" href="/contato#mapa">Ver mapa</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section" id="sobre">
+  <div class="container about-grid">
+    <div>
+      <div class="section-title">
+        <h2>Sobre a unidade</h2>
+      </div>
+      <p>A Academia Free Life fica na <%= gym.street %>, no <%= gym.neighborhood %>, em <%= gym.city %> (<%= gym.state %>). A ficha do Google descreve a unidade como academia na <%= gym.regionNote %> e mostra nota <%= gym.ratingLabel %> em <%= gym.reviewCountLabel %> avaliações.</p>
+      <p>Depoimentos de alunos não entram neste site. Planos e horários marcados como exemplo ainda não são informação oficial: a ficha usada como fonte não trazia preços, grade nem telefone.</p>
+    </div>
+    <aside class="panel">
+      <h3>Na ficha do Google</h3>
+      <ul class="plain-list">
+        <li>Nota <%= gym.ratingLabel %> em <%= gym.reviewCountLabel %> avaliações</li>
+        <li><%= gym.street %></li>
+        <li><%= gym.neighborhood %>, <%= gym.city %> — <%= gym.state %></li>
+        <li>CEP <%= gym.cep %></li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-title split-title">
+      <h2>Planos</h2>
+      <a href="/planos">Ver todos</a>
+    </div>
+    <% if (!plans.length) { %>
+      <p class="empty">Nenhum plano publicado no momento.</p>
+    <% } else { %>
+      <div class="cards cards-3">
+        <% plans.forEach(function (plan) { %>
+          <article class="card plan-card <%= plan.is_placeholder ? 'is-example' : '' %> <%= plan.highlighted ? 'is-highlight' : '' %>">
+            <div class="card-top">
+              <h3><%= plan.name %></h3>
+              <% if (plan.is_placeholder) { %><span class="badge badge-example">Exemplo</span><% } %>
+              <% if (plan.highlighted) { %><span class="badge badge-highlight">Destaque</span><% } %>
+            </div>
+            <p class="price"><span class="price-value"><%= plan.price_label %></span><% if (plan.period_label) { %><span class="price-period"><%= plan.period_label %></span><% } %></p>
+            <% if (plan.description) { %><p><%= plan.description %></p><% } %>
+            <a class="btn btn-secondary" href="/contato?interesse=matricula&plano=<%= plan.id %>#formulario">Quero este plano</a>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-title split-title">
+      <h2>Modalidades</h2>
+      <a href="/modalidades">Ver a grade</a>
+    </div>
+    <% if (!classes.length) { %>
+      <p class="empty">Nenhuma modalidade publicada no momento.</p>
+    <% } else { %>
+      <ul class="schedule-preview">
+        <% classes.forEach(function (item) { %>
+          <li>
+            <a href="/modalidades"><%= item.name %></a>
+            <span><%= item.weekdayLabel %> · <%= item.start_time %>–<%= item.end_time %></span>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
+</section>
+
+<section class="section band">
+  <div class="container band-inner">
+    <div>
+      <h2>Quer treinar nesta unidade?</h2>
+      <p>Peça matrícula ou aula experimental pelo formulário. A mensagem fica no painel da academia.</p>
+    </div>
+    <a class="btn btn-primary" href="/contato#formulario">Falar com a academia</a>
+  </div>
+</section>
+<%- include('partials/bottom') %>

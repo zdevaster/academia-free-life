@@ -1,0 +1,32 @@
+<%- include('../partials/head') %>
+<body class="is-admin">
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+  <main id="conteudo" class="login-wrap">
+    <div class="panel login-card">
+      <a class="brand" href="/">
+        <svg class="brand-mark" viewBox="0 0 64 32" aria-hidden="true" focusable="false">
+          <path d="M4 26C16 6 48 6 60 26" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-kicker">Painel</span>
+          <span class="brand-name" translate="no">Free Life</span>
+        </span>
+      </a>
+      <h1>Área da academia</h1>
+      <p class="fine">A senha vem de quem administra o site. Planos, horários e mensagens do formulário ficam aqui.</p>
+      <% if (error) { %>
+        <div class="alert alert-erro" id="erro-senha" role="alert"><p><%= error %></p></div>
+      <% } %>
+      <form class="form" method="post" action="/admin/entrar" novalidate>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="field <%= error ? 'is-invalid' : '' %>">
+          <label for="password">Senha</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" maxlength="200" required autofocus <% if (error) { %>aria-invalid="true" aria-describedby="erro-senha"<% } %>>
+        </div>
+        <button class="btn btn-primary" type="submit">Entrar</button>
+      </form>
+      <p class="fine"><a href="/">Voltar ao site</a></p>
+    </div>
+  </main>
+</body>
+</html>

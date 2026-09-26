@@ -1,0 +1,20 @@
+<%- include('../partials/admin-top') %>
+<header class="page-head">
+  <p class="kicker">Confirmar</p>
+  <h1><%= heading %></h1>
+</header>
+<div class="panel form-narrow">
+  <% if (kind === 'mensagem') { %>
+    <p>Apagar a mensagem de <strong><%= name %></strong>? Esta ação não desfaz.</p>
+  <% } else { %>
+    <p>Excluir <strong><%= name %></strong>? O item deixa de aparecer no site. Esta ação não desfaz.</p>
+  <% } %>
+  <form method="post" action="<%= action %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="form-actions">
+      <button class="btn btn-danger" type="submit"><%= confirmLabel %></button>
+      <a class="btn btn-ghost" href="<%= cancelHref %>">Cancelar</a>
+    </div>
+  </form>
+</div>
+<%- include('../partials/admin-bottom') %>

@@ -1,0 +1,10 @@
+<%- include('head') %>
+<body>
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+  <%- include('header') %>
+  <main id="conteudo">
+    <% if (flash && flash.text) { %>
+      <div class="container notice-wrap">
+        <%- include('flash') %>
+      </div>
+    <% } %>

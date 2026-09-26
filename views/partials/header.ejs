@@ -1,0 +1,25 @@
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 64 32" aria-hidden="true" focusable="false">
+        <path d="M4 26C16 6 48 6 60 26" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-kicker">Academia</span>
+        <span class="brand-name" translate="no">Free Life</span>
+      </span>
+    </a>
+    <input class="nav-check" type="checkbox" id="nav-toggle">
+    <label class="nav-toggle" for="nav-toggle">
+      <span class="sr-only">Abrir ou fechar o menu</span>
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+    </label>
+    <nav class="nav-panel" id="menu" aria-label="Principal">
+      <a href="/" <%= path === '/' ? 'aria-current="page"' : '' %>>Início</a>
+      <a href="/planos" <%= path === '/planos' ? 'aria-current="page"' : '' %>>Planos</a>
+      <a href="/modalidades" <%= path === '/modalidades' ? 'aria-current="page"' : '' %>>Modalidades</a>
+      <a href="/contato" <%= path === '/contato' ? 'aria-current="page"' : '' %>>Contato</a>
+      <a class="btn btn-primary btn-small" href="/contato#formulario">Matricule-se</a>
+    </nav>
+  </div>
+</header>

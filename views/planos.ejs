@@ -1,0 +1,43 @@
+<%- include('partials/top') %>
+<section class="section page-section">
+  <div class="container">
+    <header class="page-head">
+      <p class="kicker">Academia Free Life</p>
+      <h1>Planos</h1>
+      <p class="lede">Os planos saem do cadastro do site.</p>
+    </header>
+    <% if (flags.plans) { %>
+      <p class="example-note">Itens com a marca Exemplo não são a tabela da academia. A ficha do Google não informava preços.</p>
+    <% } %>
+    <% if (!plans.length) { %>
+      <p class="empty">Nenhum plano publicado no momento. Fale com a academia pelo formulário.</p>
+      <a class="btn btn-primary" href="/contato#formulario">Falar com a academia</a>
+    <% } else { %>
+      <div class="cards cards-3">
+        <% plans.forEach(function (plan) { %>
+          <article class="card plan-card <%= plan.is_placeholder ? 'is-example' : '' %> <%= plan.highlighted ? 'is-highlight' : '' %>">
+            <div class="card-top">
+              <h2><%= plan.name %></h2>
+              <% if (plan.is_placeholder) { %><span class="badge badge-example">Exemplo</span><% } %>
+              <% if (plan.highlighted) { %><span class="badge badge-highlight">Destaque</span><% } %>
+            </div>
+            <p class="price">
+              <span class="price-value"><%= plan.price_label %></span>
+              <% if (plan.period_label) { %><span class="price-period"><%= plan.period_label %></span><% } %>
+            </p>
+            <% if (plan.description) { %><p><%= plan.description %></p><% } %>
+            <% if (plan.benefitList.length) { %>
+              <ul>
+                <% plan.benefitList.forEach(function (benefit) { %>
+                  <li><%= benefit %></li>
+                <% }) %>
+              </ul>
+            <% } %>
+            <a class="btn btn-secondary" href="/contato?interesse=matricula&plano=<%= plan.id %>#formulario">Quero este plano</a>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+<%- include('partials/bottom') %>

@@ -1,0 +1,43 @@
+<%- include('../partials/admin-top') %>
+<header class="page-head">
+  <p class="kicker">Painel</p>
+  <h1>Mensagens</h1>
+  <p class="lede">Pedidos enviados pelo formulário de contato. São mostradas as 200 mais recentes.</p>
+</header>
+<% if (!submissions.length) { %>
+  <p class="empty">Nenhuma mensagem ainda.</p>
+<% } else { %>
+  <div class="table-wrap">
+    <table class="stack">
+      <thead>
+        <tr>
+          <th>Quando</th>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>E-mail</th>
+          <th>Motivo</th>
+          <th>Plano</th>
+          <th>Modalidade</th>
+          <th>Mensagem</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% submissions.forEach(function (item) { %>
+          <tr>
+            <td data-label="Quando"><%= formatWhen(item.created_at) %></td>
+            <td data-label="Nome"><%= item.name %></td>
+            <td data-label="Telefone"><a href="tel:+55<%= item.phone %>"><%= formatPhone(item.phone) %></a></td>
+            <td data-label="E-mail"><%= item.email || '—' %></td>
+            <td data-label="Motivo"><%= interestLabel(item.interest) %></td>
+            <td data-label="Plano"><%= item.plan_name || '—' %></td>
+            <td data-label="Modalidade"><%= item.class_name || '—' %></td>
+            <td data-label="Mensagem" class="message"><%= item.message %></td>
+            <td data-label="Ação"><a href="/admin/mensagens/<%= item.id %>/excluir">Apagar</a></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+<%- include('../partials/admin-bottom') %>

@@ -1,0 +1,56 @@
+<%- include('partials/top') %>
+<section class="section page-section">
+  <div class="container">
+    <header class="page-head">
+      <p class="kicker">Academia Free Life</p>
+      <h1>Modalidades e horários</h1>
+      <p class="lede">A grade sai do cadastro do site.</p>
+    </header>
+    <% if (flags.classes) { %>
+      <p class="example-note">Horários com a marca Exemplo não são a programação oficial. A ficha do Google não trazia a grade.</p>
+    <% } %>
+    <% if (!classes.length) { %>
+      <p class="empty">Nenhuma modalidade publicada no momento.</p>
+      <a class="btn btn-primary" href="/contato#formulario">Pedir informação</a>
+    <% } else { %>
+      <div class="cards cards-2">
+        <% classes.forEach(function (item) { %>
+          <article class="card <%= item.is_placeholder ? 'is-example' : '' %>">
+            <div class="card-top">
+              <h2><%= item.name %></h2>
+              <% if (item.is_placeholder) { %><span class="badge badge-example">Exemplo</span><% } %>
+            </div>
+            <p class="when"><%= item.weekdayLabel %> · <%= item.start_time %>–<%= item.end_time %></p>
+            <% if (item.description) { %><p><%= item.description %></p><% } %>
+            <a class="btn btn-secondary" href="/contato?interesse=aula-experimental&modalidade=<%= item.id %>#formulario">Quero experimentar</a>
+          </article>
+        <% }) %>
+      </div>
+
+      <h2 class="grade-title" id="grade">Grade da semana</h2>
+      <div class="week">
+        <% week.forEach(function (day) { %>
+          <section class="day">
+            <h3>
+              <span class="full"><%= day.name %></span>
+              <span class="short"><abbr title="<%= day.name %>"><%= day.short %></abbr></span>
+            </h3>
+            <% if (!day.items.length) { %>
+              <p class="empty-day">Nada cadastrado</p>
+            <% } else { %>
+              <ul>
+                <% day.items.forEach(function (item) { %>
+                  <li class="<%= item.is_placeholder ? 'is-example' : '' %>">
+                    <time datetime="<%= item.start_time %>"><%= item.start_time %></time>–<time datetime="<%= item.end_time %>"><%= item.end_time %></time>
+                    <a href="/contato?interesse=aula-experimental&modalidade=<%= item.id %>#formulario"><%= item.name %></a>
+                  </li>
+                <% }) %>
+              </ul>
+            <% } %>
+          </section>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+<%- include('partials/bottom') %>

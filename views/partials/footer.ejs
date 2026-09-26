@@ -1,0 +1,35 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-brand" translate="no">Academia Free Life</p>
+      <address>
+        <%= gym.street %><br>
+        <%= gym.neighborhood %><br>
+        <%= gym.city %> — <%= gym.state %><br>
+        CEP <%= gym.cep %>
+      </address>
+    </div>
+    <nav aria-label="Rodapé">
+      <a href="/planos">Planos</a>
+      <a href="/modalidades">Modalidades e horários</a>
+      <a href="/contato">Contato</a>
+      <a href="/admin">Área da academia</a>
+    </nav>
+    <div class="footer-actions">
+      <a class="btn btn-primary" href="<%= maps.directions %>" target="_blank" rel="noopener noreferrer">Como chegar<span class="sr-only"> (abre em nova aba)</span></a>
+      <% if (contact.whatsappHref) { %>
+        <a class="btn btn-secondary" href="<%= contact.whatsappHref %>" target="_blank" rel="noopener noreferrer">WhatsApp<span class="sr-only"> (abre em nova aba)</span></a>
+      <% } %>
+      <% if (contact.telHref) { %>
+        <a class="btn btn-ghost" href="<%= contact.telHref %>">Ligar <%= contact.phoneLabel %></a>
+      <% } %>
+    </div>
+  </div>
+  <p class="container legal">
+    © <%= year %> Academia Free Life · <%= gym.city %> — <%= gym.state %>.
+    Nota <%= gym.ratingLabel %> e <%= gym.reviewCountLabel %> avaliações conforme a ficha do Google.
+    <% if (flags && flags.any) { %>
+      Conteúdo marcado como exemplo ainda não é informação oficial da academia.
+    <% } %>
+  </p>
+</footer>

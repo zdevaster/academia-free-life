@@ -1,0 +1,119 @@
+<%- include('partials/top') %>
+<section class="section page-section">
+  <div class="container">
+    <%- include('partials/problems') %>
+    <header class="page-head">
+      <p class="kicker">Academia Free Life</p>
+      <h1>Contato</h1>
+      <p class="lede">Endereço da unidade, mapa e um formulário para matrícula, aula experimental ou dúvida.</p>
+    </header>
+    <div class="contact-grid">
+      <div>
+        <section class="panel" aria-labelledby="onde-titulo">
+          <h2 id="onde-titulo">Onde estamos</h2>
+          <address class="address-full"><%= gym.addressFull %></address>
+          <p>CEP <%= gym.cep %></p>
+          <% if (contact.telHref) { %>
+            <p><a href="<%= contact.telHref %>">Ligar · <%= contact.phoneLabel %></a></p>
+          <% } else { %>
+            <p>Telefone: ainda não cadastrado.</p>
+          <% } %>
+          <% if (contact.whatsappHref) { %>
+            <p><a href="<%= contact.whatsappHref %>" target="_blank" rel="noopener noreferrer">WhatsApp · <%= contact.whatsappLabel %><span class="sr-only"> (abre em nova aba)</span></a></p>
+          <% } else { %>
+            <p>WhatsApp: ainda não cadastrado.</p>
+          <% } %>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="<%= maps.directions %>" target="_blank" rel="noopener noreferrer">Como chegar<span class="sr-only"> (abre em nova aba)</span></a>
+            <a class="btn btn-ghost" href="<%= maps.search %>" target="_blank" rel="noopener noreferrer">Abrir no Google Maps<span class="sr-only"> (abre em nova aba)</span></a>
+          </div>
+        </section>
+        <div class="map-wrap" id="mapa">
+          <iframe
+            class="map-frame"
+            title="Mapa do Google com o endereço da Academia Free Life"
+            src="<%= maps.embed %>"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+            <p>Não foi possível incorporar o mapa. <a href="<%= maps.search %>">Abrir no Google Maps</a>.</p>
+          </iframe>
+          <p class="fine">Mapa do Google para o endereço da ficha. Se ele não carregar, use Como chegar.</p>
+        </div>
+      </div>
+
+      <section class="panel" id="formulario" aria-labelledby="form-titulo">
+        <h2 id="form-titulo">Aula experimental ou matrícula</h2>
+        <p class="fine">A mensagem fica salva no site para a equipe da academia. Estes dados não são publicados.</p>
+        <form class="form" method="post" action="/contato" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="hp" aria-hidden="true">
+            <label for="hp_field">Não preencha este campo</label>
+            <input id="hp_field" name="hp_field" type="text" tabindex="-1" autocomplete="off" value="">
+          </div>
+
+          <div class="field <%= errors.name ? 'is-invalid' : '' %>">
+            <label for="name">Nome <abbr title="obrigatório">*</abbr></label>
+            <input id="name" name="name" type="text" autocomplete="name" maxlength="80" required value="<%= form.name %>" <% if (errors.name) { %>aria-invalid="true" aria-describedby="erro-name"<% } %>>
+            <%- include('partials/field-error', { field: 'name' }) %>
+          </div>
+
+          <div class="field <%= errors.phone ? 'is-invalid' : '' %>">
+            <label for="phone">Telefone <abbr title="obrigatório">*</abbr></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="32" required placeholder="(17) 99999-9999" value="<%= form.phone %>" <% if (errors.phone) { %>aria-invalid="true" aria-describedby="erro-phone"<% } %>>
+            <%- include('partials/field-error', { field: 'phone' }) %>
+          </div>
+
+          <div class="field <%= errors.email ? 'is-invalid' : '' %>">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" maxlength="120" value="<%= form.email %>" <% if (errors.email) { %>aria-invalid="true" aria-describedby="erro-email"<% } %>>
+            <p class="hint">Opcional.</p>
+            <%- include('partials/field-error', { field: 'email' }) %>
+          </div>
+
+          <div class="field <%= errors.interest ? 'is-invalid' : '' %>">
+            <label for="interest">Motivo <abbr title="obrigatório">*</abbr></label>
+            <select id="interest" name="interest" required <% if (errors.interest) { %>aria-invalid="true" aria-describedby="erro-interest"<% } %>>
+              <option value="" <%= form.interest ? '' : 'selected' %>>Selecione</option>
+              <% interests.forEach(function (item) { %>
+                <option value="<%= item.id %>" <%= form.interest === item.id ? 'selected' : '' %>><%= item.label %></option>
+              <% }) %>
+            </select>
+            <%- include('partials/field-error', { field: 'interest' }) %>
+          </div>
+
+          <div class="field <%= errors.plan_id ? 'is-invalid' : '' %>">
+            <label for="plan_id">Plano de interesse</label>
+            <select id="plan_id" name="plan_id" <% if (errors.plan_id) { %>aria-invalid="true" aria-describedby="erro-plan_id"<% } %>>
+              <option value="">Não escolhi um plano</option>
+              <% plans.forEach(function (plan) { %>
+                <option value="<%= plan.id %>" <%= String(form.plan_id) === String(plan.id) ? 'selected' : '' %>><%= plan.name %></option>
+              <% }) %>
+            </select>
+            <%- include('partials/field-error', { field: 'plan_id' }) %>
+          </div>
+
+          <div class="field <%= errors.class_id ? 'is-invalid' : '' %>">
+            <label for="class_id">Modalidade</label>
+            <select id="class_id" name="class_id" <% if (errors.class_id) { %>aria-invalid="true" aria-describedby="erro-class_id"<% } %>>
+              <option value="">Ainda não sei</option>
+              <% classes.forEach(function (item) { %>
+                <option value="<%= item.id %>" <%= String(form.class_id) === String(item.id) ? 'selected' : '' %>><%= item.name %></option>
+              <% }) %>
+            </select>
+            <%- include('partials/field-error', { field: 'class_id' }) %>
+          </div>
+
+          <div class="field <%= errors.message ? 'is-invalid' : '' %>">
+            <label for="message">Mensagem <abbr title="obrigatório">*</abbr></label>
+            <textarea id="message" name="message" rows="5" maxlength="2000" required <% if (errors.message) { %>aria-invalid="true" aria-describedby="erro-message"<% } %>><%= form.message %></textarea>
+            <%- include('partials/field-error', { field: 'message' }) %>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Enviar mensagem</button>
+        </form>
+      </section>
+    </div>
+  </div>
+</section>
+<%- include('partials/bottom') %>

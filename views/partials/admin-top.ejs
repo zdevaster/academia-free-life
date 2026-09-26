@@ -1,0 +1,30 @@
+<%- include('head') %>
+<body class="is-admin">
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+  <div class="admin-shell">
+    <nav class="admin-nav" aria-label="Administração">
+      <a class="brand admin-brand" href="/admin">
+        <svg class="brand-mark" viewBox="0 0 64 32" aria-hidden="true" focusable="false">
+          <path d="M4 26C16 6 48 6 60 26" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-kicker">Painel</span>
+          <span class="brand-name" translate="no">Free Life</span>
+        </span>
+      </a>
+      <div class="admin-links">
+        <a href="/admin" <%= path === '/admin' ? 'aria-current="page"' : '' %>>Painel</a>
+        <a href="/admin/mensagens" <%= path === '/admin/mensagens' || path.startsWith('/admin/mensagens/') ? 'aria-current="page"' : '' %>>Mensagens<% if (inboxCount) { %> (<%= inboxCount %>)<% } %></a>
+        <a href="/admin/planos" <%= path === '/admin/planos' || path.startsWith('/admin/planos/') ? 'aria-current="page"' : '' %>>Planos</a>
+        <a href="/admin/modalidades" <%= path === '/admin/modalidades' || path.startsWith('/admin/modalidades/') ? 'aria-current="page"' : '' %>>Modalidades</a>
+        <a href="/admin/telefone" <%= path === '/admin/telefone' ? 'aria-current="page"' : '' %>>Telefone</a>
+        <a href="/" >Ver o site</a>
+        <form method="post" action="/admin/sair">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit">Sair</button>
+        </form>
+      </div>
+    </nav>
+    <div class="admin-content">
+      <main id="conteudo" class="admin-main">
+        <%- include('flash') %>

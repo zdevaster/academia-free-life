@@ -1,0 +1,61 @@
+<%- include('../partials/admin-top') %>
+<header class="page-head">
+  <p class="kicker">Planos</p>
+  <h1><%= mode === 'editar' ? 'Editar plano' : 'Novo plano' %></h1>
+</header>
+<%- include('../partials/problems') %>
+<form class="form form-narrow" method="post" action="<%= action %>" novalidate>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="field <%= errors.name ? 'is-invalid' : '' %>">
+    <label for="name">Nome</label>
+    <input id="name" name="name" type="text" maxlength="80" required value="<%= form.name %>" <% if (errors.name) { %>aria-invalid="true" aria-describedby="erro-name"<% } %>>
+    <%- include('../partials/field-error', { field: 'name' }) %>
+  </div>
+  <div class="field <%= errors.price_label ? 'is-invalid' : '' %>">
+    <label for="price_label">Valor</label>
+    <input id="price_label" name="price_label" type="text" maxlength="40" required value="<%= form.price_label %>" <% if (errors.price_label) { %>aria-invalid="true" aria-describedby="erro-price_label"<% } %>>
+    <p class="hint">Texto livre. Use “A definir” até a academia informar o preço real.</p>
+    <%- include('../partials/field-error', { field: 'price_label' }) %>
+  </div>
+  <div class="field <%= errors.period_label ? 'is-invalid' : '' %>">
+    <label for="period_label">Período</label>
+    <input id="period_label" name="period_label" type="text" maxlength="40" value="<%= form.period_label %>" placeholder="por mês" <% if (errors.period_label) { %>aria-invalid="true" aria-describedby="erro-period_label"<% } %>>
+    <%- include('../partials/field-error', { field: 'period_label' }) %>
+  </div>
+  <div class="field <%= errors.description ? 'is-invalid' : '' %>">
+    <label for="description">Descrição</label>
+    <textarea id="description" name="description" rows="4" maxlength="500" <% if (errors.description) { %>aria-invalid="true" aria-describedby="erro-description"<% } %>><%= form.description %></textarea>
+    <%- include('../partials/field-error', { field: 'description' }) %>
+  </div>
+  <div class="field <%= errors.benefits ? 'is-invalid' : '' %>">
+    <label for="benefits">Benefícios</label>
+    <textarea id="benefits" name="benefits" rows="5" maxlength="3000" <% if (errors.benefits) { %>aria-invalid="true" aria-describedby="erro-benefits"<% } %>><%= form.benefits %></textarea>
+    <p class="hint">Um benefício por linha.</p>
+    <%- include('../partials/field-error', { field: 'benefits' }) %>
+  </div>
+  <div class="field <%= errors.sort_order ? 'is-invalid' : '' %>">
+    <label for="sort_order">Ordem na lista</label>
+    <input id="sort_order" name="sort_order" type="number" min="0" max="999" inputmode="numeric" value="<%= form.sort_order %>" <% if (errors.sort_order) { %>aria-invalid="true" aria-describedby="erro-sort_order"<% } %>>
+    <%- include('../partials/field-error', { field: 'sort_order' }) %>
+  </div>
+  <label class="check-line">
+    <input type="checkbox" name="highlighted" value="1" <%= form.highlighted ? 'checked' : '' %>>
+    <span>Destacar este plano</span>
+  </label>
+  <label class="check-line">
+    <input type="checkbox" name="active" value="1" <%= form.active ? 'checked' : '' %>>
+    <span>Publicar no site</span>
+  </label>
+  <label class="check-line">
+    <input type="checkbox" name="is_placeholder" value="1" <%= form.is_placeholder ? 'checked' : '' %>>
+    <span>Marcar como exemplo (mostra o aviso no site)</span>
+  </label>
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Salvar</button>
+    <a class="btn btn-ghost" href="/admin/planos">Cancelar</a>
+    <% if (typeof deleteHref !== 'undefined' && deleteHref) { %>
+      <a class="btn btn-danger" href="<%= deleteHref %>">Excluir</a>
+    <% } %>
+  </div>
+</form>
+<%- include('../partials/admin-bottom') %>

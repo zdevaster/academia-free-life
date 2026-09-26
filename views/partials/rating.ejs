@@ -1,0 +1,21 @@
+<p class="rating">
+  <span class="sr-only">Nota <%= gym.ratingLabel %> de 5, com base em <%= gym.reviewCountLabel %> avaliações no Google.</span>
+  <span class="stars" aria-hidden="true">
+    <% stars.forEach(function (fill) { %>
+      <% const starStep = Math.max(0, Math.min(10, Math.round(fill * 10))); %>
+      <span class="star">
+        <svg viewBox="0 0 20 20" class="star-empty" focusable="false">
+          <path d="M10 1.15l2.35 4.76 5.26.77-3.8 3.71.9 5.24L10 13.15 5.29 15.63l.9-5.24-3.8-3.71 5.26-.77L10 1.15z"/>
+        </svg>
+        <span class="star-clip star-w-<%= starStep %>">
+          <svg viewBox="0 0 20 20" class="star-full" focusable="false">
+            <path d="M10 1.15l2.35 4.76 5.26.77-3.8 3.71.9 5.24L10 13.15 5.29 15.63l.9-5.24-3.8-3.71 5.26-.77L10 1.15z"/>
+          </svg>
+        </span>
+      </span>
+    <% }) %>
+  </span>
+  <span class="rating-number" aria-hidden="true"><%= gym.ratingLabel %></span>
+  <span class="rating-count" aria-hidden="true"><%= gym.reviewCountLabel %> avaliações no Google</span>
+</p>
+<p class="fine">Nota publicada na ficha do Google. Este site não reproduz comentários de alunos.</p>

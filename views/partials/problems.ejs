@@ -1,0 +1,11 @@
+<% const problems = (typeof errorList !== 'undefined' && errorList && errorList.length) ? errorList : []; %>
+<% if (problems.length) { %>
+  <div class="alert alert-erro" role="alert">
+    <p>Não foi possível salvar. Corrija os campos:</p>
+    <ul>
+      <% problems.forEach(function (item) { %>
+        <li><a href="#<%= item.field %>"><%= item.message %></a></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>

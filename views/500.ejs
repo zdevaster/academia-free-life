@@ -1,0 +1,12 @@
+<%- include('partials/top') %>
+<section class="section page-section">
+  <div class="container narrow">
+    <header class="page-head">
+      <p class="kicker">Academia Free Life</p>
+      <h1>Algo deu errado</h1>
+      <p class="lede"><%= (typeof detail !== 'undefined' && detail) ? detail : 'Não foi possível abrir esta página agora. Tente de novo em alguns instantes.' %></p>
+    </header>
+    <a class="btn btn-primary" href="/">Voltar ao início</a>
+  </div>
+</section>
+<%- include('partials/bottom') %>
